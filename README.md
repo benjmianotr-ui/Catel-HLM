@@ -1,6 +1,6 @@
-# [Catel HLM] — Modelo Conceitual de Banco de Dados
+# Catel HLM — Modelo Conceitual de Banco de Dados
 
-> **Base deste documento:** esta é uma cópia adaptada do modelo conceitual do projeto *Nós Café* (entidades, seções e formato preservados), reestruturada a partir de um novo levantamento de requisitos (entrevista) feito com a operação da loja aqui descrita. Onde não havia informação (nome oficial, CNPJ, endereço, integrantes do grupo), foi dado um placeholder entre colchetes `[ ]` para você preencher.
+> **Base deste documento:** esta é uma cópia adaptada do modelo conceitual do projeto *We Coffee* (entidades, seções e formato preservados), reestruturada a partir de um novo levantamento de requisitos (entrevista) feito com a operação da **Catel HLM**, loja de materiais de construção (hidráulica, louças e metais) localizada na Vila Ré, São Paulo/SP. Dados de endereço, segmento e CNAE foram confirmados via Google Maps e portal AECweb; o CNPJ abaixo corresponde a uma empresa de mesmo nome, mesma atividade e mesma cidade, mas não foi possível confirmar o endereço exato na base pública gratuita consultada — vale conferir antes de usar oficialmente.
 
 # Integrantes
 
@@ -12,11 +12,11 @@
 
 ## Entrega 1 — Modelo Conceitual (DER)
 
-**Organização analisada:** [Catel HLM]
-**Unidade:** [Endereço da unidade]
-**Segmento:** Varejo de produtos, com venda em loja física, WhatsApp e canais de venda online
+**Organização analisada:** Catel HLM
+**Unidade:** R. Itinguçu, 2190 - Vila Ré, São Paulo - SP, 03658-001
+**Segmento:** Comércio varejista de materiais de construção — hidráulica, louças, metais, acabamentos, materiais básicos, portas e janelas, pisos, azulejos, pias e gabinetes, com venda em loja física, WhatsApp e canais de venda online
 
-> Este README apresenta o levantamento de requisitos, processos de negação, registros, dicionário de dados, modelo conceitual, DER e justificativas técnicas do projeto.
+> Este README apresenta o levantamento de requisitos, processos de negócio, regras, dicionário de dados, modelagem conceitual, DER e justificativas técnicas do projeto.
 
 ---
 
@@ -24,41 +24,46 @@
 
 ## Nome e natureza da organização
 
-Uma organização analisada é a **[Catel HLM]**, atuante no segmento de varejo, com comercialização de produtos por meio de atendimento presencial na loja e também por canais remotos, como WhatsApp e outros canais de venda.
-**CNPJ:** [CNPJ]
-**Site/Redes sociais:** [link]
-**Unidade analisada:** [fim completo]
+A organização analisada é a **Catel HLM** (nome fantasia — HLM referindo-se a Hidráulica, Louças e Metais), atuante há mais de 40 anos no mercado de materiais de construção: hidráulica, louças, metais, acabamentos, materiais básicos, portas e janelas, pisos, azulejos, pias e gabinetes, com fabricação própria de calhas e rufos. A loja comercializa produtos por meio de atendimento presencial e também por canais remotos, como WhatsApp e outros canais de venda.
+**Razão social (provável):** Catel - Hidráulicos, Louças e Metais Ltda
+**CNPJ (provável):** 06.969.238/0001-06 — mesmo nome, atividade (CNAE 4744-0/99 — Comércio varejista de materiais de construção em geral) e cidade, mas endereço exato não confirmado na base pública gratuita
+**Telefone:** (11) 2023-9922
+**Site/Redes sociais:** [não localizado em busca pública]
+**Unidade analisada:** R. Itinguçu, 2190 - Vila Ré, São Paulo - SP, 03658-001
+
+> A loja possui avaliação 4,3★ no Google (mais de 1.100 avaliações), com elogios recorrentes à variedade de materiais, preços competitivos e entrega dentro do prazo.
 
 ## Contexto e porte
 
-Uma unidade de trabalho com diferentes formas de atendimento:
+A unidade trabalha com diferentes formas de atendimento:
 
-- **Loja física:** o cliente compra diretamente no saldo/loja.
+- **Loja física:** o cliente compra diretamente no balcão/loja.
 - **WhatsApp:** o cliente faz o pedido por mensagem, informando produtos e quantidades.
 - **Canais de venda:** pedidos recebidos por outros canais de venda da empresa.
 
 Após o registro do pedido, os produtos são separados no estoque, conferidos e, quando necessário, embalados para entrega.
 
-## Problemas e necessidades identificadas
+## Problemas e necessidades identificados
 
-Durante o levantamento, foi identificado que o controle de estoque depende do acompanhamento manual das entradas e saídas, e que, ao receber um pedido, a equipe precisa verificar a quantidade disponível no sistema e, em alguns casos, conferindo fisicamente no estoque.
+Durante o levantamento, foi identificado que o controle de estoque depende do acompanhamento manual das entradas e saídas, e que, ao receber um pedido, a equipe precisa verificar a quantidade disponível no sistema e, em alguns casos, conferir fisicamente no estoque.
 
-Também foi observado que problemas como produto errado, falta de estoque ou falta na entrada são tratados caso a caso, por meio de contato direto com o cliente, sem um registro estruturado do motivo e da solução aplicada.
+Também foi observado que problemas como produto errado, falta de estoque ou falha na entrega são tratados caso a caso, por meio de contato direto com o cliente, sem um registro estruturado do motivo e da solução aplicada.
 
-Dessa forma, o projeto busca estruturar os dados de produtos, pedidos, pagamentos, estoque, separação/conferência, ocorrências e trocas/devoluções para facilitar o controle da operação e futuras análises gerais.
+Dessa forma, o projeto busca estruturar os dados de produtos, pedidos, pagamentos, estoque, separação/conferência, ocorrências e trocas/devoluções para facilitar o controle da operação e futuras análises gerenciais.
 
-## Justificativa da escola
+## Justificativa da escolha
 
-A loja foi escolar por apresentar um cenário real de operação comercial com múltiplos canais de venda (presencial, WhatsApp e canais de venda), controle de estoque, conferência de pedidos antes do ambiente e tratamento de problemas pós-venda (trocas e devoluções), o que oferece um bom conjunto de processos para modelagem de um banco de dados.
+A loja foi escolhida por apresentar um cenário real de operação comercial com múltiplos canais de venda (presencial, WhatsApp e canais de venda), controle de estoque, conferência de pedidos antes do envio e tratamento de problemas pós-venda (trocas e devoluções), o que oferece um bom conjunto de processos para modelagem de um banco de dados.
 
 ## Evidências da organização
 
 Foram obtidas evidências da existência e do acesso à organização, incluindo:
 
-- esforço da unidade: [endereço];
-- canal de vendas/WhatsApp: [contato];
-- entrevista com o(a) resposta pela operação;
-- observação dos processos de venda, separação e conferência de pedestres.
+- endereço confirmado: R. Itinguçu, 2190 - Vila Ré, São Paulo - SP, 03658-001 (Google Maps);
+- telefone de contato: (11) 2023-9922;
+- perfil como fornecedor de materiais de construção no portal AECweb (hidráulica, louças, metais, acabamentos, portas e janelas, pisos, azulejos, pias e gabinetes, calhas e rufos de fabricação própria);
+- avaliações de clientes no Google (4,3★, +1.100 avaliações) citando variedade de materiais, preços competitivos e entrega dentro do prazo;
+- entrevista com a operação da loja sobre cadastro de produtos, pedidos, estoque, pagamento, separação e trocas/devoluções.
 
 ---
 
@@ -68,9 +73,9 @@ Foram obtidas evidências da existência e do acesso à organização, incluindo
 
 Com base na entrevista, foram identificados os seguintes processos:
 
-- **Cadastro de produtos:** registro de nome, preto, código e quantidade em estoque, além de marca e unidade de venda quando aplicável.
+- **Cadastro de produtos:** registro de nome, preço, código e quantidade em estoque, além de marca e unidade de venda quando aplicável.
 - **Realização do pedido:** o cliente compra diretamente na loja ou faz o pedido pelo WhatsApp/canais de venda.
-- **Registro do pedido:** registro dos produtos escolares, quantidades, valor da compra, forma de pagamento e, quando há entrega, dados do cliente e endereço.
+- **Registro do pedido:** registro dos produtos escolhidos, quantidades, valor da compra, forma de pagamento e, quando há entrega, dados do cliente e endereço.
 - **Controle de estoque:** acompanhamento das entradas e saídas e verificação da disponibilidade do produto no momento do pedido, com conferência física quando necessário.
 - **Confirmação de pagamento:** verificação da aprovação do pagamento; após confirmado, o pedido é liberado para separação e preparo.
 - **Separação e conferência:** o funcionário retira os produtos do estoque, confere a quantidade e se são os produtos corretos, e embala os itens para entrega.
@@ -191,8 +196,8 @@ Com base na entrevista, foram identificados os seguintes processos:
 | nome | Nome do produto | Obrigatório |
 | codigo | Código do produto (SKU/código de barras) | Obrigatório e único |
 | preco | Preço atual de venda | Obrigatório; maior que zero |
-| marca | Marca do produto | Opcional; depende do tipo de produto |
-| unidade_venda | Unidade utilizada na venda (unidade, kg, caixa, etc.) | Opcional; depende do tipo de produto |
+| marca | Marca do produto (ex.: Tigre, Deca, Docol) | Opcional; depende do tipo de produto |
+| unidade_venda | Unidade utilizada na venda (unidade, m², metro, saco, kg, etc.) | Opcional; depende do tipo de produto |
 
 ## 5.4 Entidade: ESTOQUE
 
@@ -311,207 +316,4 @@ Foram classificados principalmente como:
 |---|---|---|
 | CLIENTE — PEDIDO | Um cliente pode realizar vários pedidos. | 1:N |
 | PEDIDO — ITEM_PEDIDO | Um pedido possui um ou mais itens. | 1:N |
-| PRODUTO — ITEM_PEDIDO | Um produto pode aparecer em vários itens de pedidos. | 1:N |
-| PEDIDO — PAGAMENTO | Um pedido pode possuir um ou mais pagamentos. | 1:N |
-| PRODUTO — ESTOQUE | Cada produto possui um único registro de estoque. | 1:1 |
-| FUNCIONARIO — SEPARACAO_PEDIDO | Um funcionário pode realizar várias separações/conferências. | 1:N |
-| PEDIDO — SEPARACAO_PEDIDO | Um pedido pode ter uma ou mais conferências (ex.: após correção de um problema). | 1:N |
-| PEDIDO — OCORRENCIA | Um pedido pode ter uma ou mais ocorrências registradas. | 1:N |
-| PEDIDO — TROCA_DEVOLUCAO | Um pedido pode originar uma ou mais solicitações de troca/devolução. | 1:N |
-| PRODUTO — TROCA_DEVOLUCAO | Um produto pode estar envolvido em várias solicitações de troca/devolução. | 1:N |
-
-## 6.4 Restrições aplicadas ao modelo
-
-- O canal do pedido deve ser LOJA, WHATSAPP ou CANAL_VENDA.
-- Dados de cliente e endereço são obrigatórios apenas quando o pedido for do tipo ENTREGA.
-- Um pedido só é liberado para SEPARACAO_PEDIDO após o PAGAMENTO estar com status Aprovado.
-- Um produto possui um único registro de estoque atual (ESTOQUE).
-- Marca e unidade de venda em PRODUTO são opcionais, pois dependem do tipo do item.
-- OCORRENCIA e TROCA_DEVOLUCAO foram mantidas como entidades separadas: a primeira trata de problemas no processo do pedido (antes/durante a entrega), e a segunda trata da pós-venda de um produto já recebido pelo cliente.
-
----
-
-# 7. Diagrama Entidade-Relacionamento (DER)
-
-## 7.1 DER — [Nome da Loja]
-
-```mermaid
-erDiagram
-    CLIENTE ||--o{ PEDIDO : realiza
-    PEDIDO ||--|{ ITEM_PEDIDO : possui
-    PRODUTO ||--o{ ITEM_PEDIDO : compoe
-    PEDIDO ||--o{ PAGAMENTO : possui
-    PRODUTO ||--|| ESTOQUE : possui
-    FUNCIONARIO ||--o{ SEPARACAO_PEDIDO : realiza
-    PEDIDO ||--o{ SEPARACAO_PEDIDO : passa_por
-    PEDIDO ||--o{ OCORRENCIA : gera
-    PEDIDO ||--o{ TROCA_DEVOLUCAO : origina
-    PRODUTO ||--o{ TROCA_DEVOLUCAO : envolve
-
-    CLIENTE {
-        int id_cliente PK
-        string nome
-        string telefone
-        string endereco
-        string cpf_cnpj
-    }
-    FUNCIONARIO {
-        int id_funcionario PK
-        string nome
-        string cargo
-    }
-    PRODUTO {
-        int id_produto PK
-        string nome
-        string codigo
-        decimal preco
-        string marca
-        string unidade_venda
-    }
-    ESTOQUE {
-        int id_estoque PK
-        int id_produto FK
-        int quantidade_disponivel
-        date data_atualizacao
-    }
-    PEDIDO {
-        int id_pedido PK
-        int id_cliente FK
-        datetime data_hora
-        string canal_pedido
-        string tipo_entrega
-        string endereco_entrega
-        decimal valor_total
-        string status_pedido
-    }
-    ITEM_PEDIDO {
-        int id_item PK
-        int id_pedido FK
-        int id_produto FK
-        int quantidade
-        decimal preco_unitario
-    }
-    PAGAMENTO {
-        int id_pagamento PK
-        int id_pedido FK
-        string forma_pagamento
-        decimal valor_pagamento
-        string status_pagamento
-        datetime data_hora_pagamento
-    }
-    SEPARACAO_PEDIDO {
-        int id_separacao PK
-        int id_pedido FK
-        int id_funcionario FK
-        datetime data_hora_separacao
-        string status_conferencia
-        string observacao
-    }
-    OCORRENCIA {
-        int id_ocorrencia PK
-        int id_pedido FK
-        string tipo_ocorrencia
-        string descricao
-        string solucao_aplicada
-        string status_ocorrencia
-        datetime data_hora
-    }
-    TROCA_DEVOLUCAO {
-        int id_troca PK
-        int id_pedido FK
-        int id_produto FK
-        string motivo
-        string condicao_produto
-        string tipo_solicitacao
-        string status_solicitacao
-        datetime data_hora
-    }
-```
-
-## 7.2 Principais relacionamentos
-
-| Entidade A | Relacionamento | Entidade B | Cardinalidade |
-|---|---|---|---|
-| CLIENTE | realiza | PEDIDO | 1:N |
-| PEDIDO | possui | ITEM_PEDIDO | 1:N |
-| PRODUTO | compõe | ITEM_PEDIDO | 1:N |
-| PEDIDO | possui | PAGAMENTO | 1:N |
-| PRODUTO | possui | ESTOQUE | 1:1 |
-| FUNCIONARIO | realiza | SEPARACAO_PEDIDO | 1:N |
-| PEDIDO | passa por | SEPARACAO_PEDIDO | 1:N |
-| PEDIDO | gera | OCORRENCIA | 1:N |
-| PEDIDO | origina | TROCA_DEVOLUCAO | 1:N |
-| PRODUTO | envolve | TROCA_DEVOLUCAO | 1:N |
-
-### Observação sobre PEDIDO e PRODUTO
-
-A relação conceitual entre **PEDIDO** e **PRODUTO** é de muitos-para-muitos, pois um pedido pode conter vários produtos e um produto pode aparecer em vários pedidos.
-
-No DER, essa relação é representada por meio da entidade associativa **ITEM_PEDIDO**:
-
-**PEDIDO 1:N ITEM_PEDIDO N:1 PRODUTO**
-
-### Observação sobre separação/conferência
-
-A relação **PEDIDO — SEPARACAO_PEDIDO** foi definida como **1:N** para permitir registrar uma nova conferência caso o pedido volte para separação após a correção de um problema (ex.: produto errado identificado).
-
----
-
-# 8. Justificativa Técnica
-
-## 8.1 Decisões de abstração e modelagem
-
-| Decisão | Justificativa |
-|---|---|
-| Escola das entidades | Foram selecionadas entidades diretamente relacionadas aos processos observados: cadastro de produto, pedido, pagamento, estoque, separação/conferência, ocorrências e pós-venda. |
-| PEDIDO como entidade central | O pedido conecta o processo de venda ao cliente, aos canais, aos itens, aos pagamentos e ao fluxo de separação/entrega. |
-| ITEM_PEDIDO como entidade associativa | Resolva uma relação N:M entre pedestres e produtos e permita registrar quantidade e preço histórico. |
-| `canal_pedido` | Permitir diferenciar LOJA, WHATSAPP e CANAL_VENDA sem criar uma entidade artificial para cada canal. |
-| `tipo_entrega` e `endereco_entrega` condicionais em PEDIDO | Refletem que nem todo pedido tem entrega — dados de entrega só são obrigatórios quando aplicável. |
-| ESTOQUE separado de PRODUTO | Evita duplicar a informação de quantidade disponível dentro do cadastro do produto. |
-| SEPARACAO_PEDIDO como entidade própria | Representa a etapa de conferência de quantidade/produto antes do embalo, citada explicitamente no levantamento. |
-| OCORRENCIA separada de TROCA_DEVOLUCAO | OCORRENCIA trata de problemas no processo do pedido (produto errado, falta de estoque, problema de entrega); TROCA_DEVOLUCAO trata da pós-venda de um produto já recebido pelo cliente. Separar como duas evita confundir nossos momentos diferentes do processo. |
-
-## 8.2 Por que não existem alternativas?
-
-| Alternativa | Motivo da rejeição |
-|---|---|
-| Manter uma quantidade em estoque apenas em PRODUTO | Criaria duas fontes possíveis para a mesma informação de quantidade e poder gerar inconsistência entre cadastro e estoque. |
-| Relacionar PEDIDO diretamente com PRODUTO sem ITEM_PEDIDO | Não permitir representar corretamente quantidade e preço histórico de cada produto vendido. |
-| Unificar OCORRENCIA e TROCA_DEVOLUCAO em uma unidade pública | Misturaria problemas do processo de venda/entrega com solicitações de pós-venda, que são fluxos e respostas diferentes. |
-| Tornar CLIENTE obrigatório em todo pedido | Nem toda venda na loja exigência identificação do cliente; tornar obrigatório difícil o registro de vendas de saldo simples. |
-| Criar uma entidade separada para cada canal de venda (LOJA, WHATSAPP, etc) | O levantamento identificou o canal como uma característica do pé, não como uma entidade de negação própria. |
-
-## 8.3 Justificativa do DER
-
-O DER foi elaborado para representar os principais processos da loja de forma integrada: cadastro de produtos, realização e registro do pedido, controle de estoque, confirmação de pagamento, separação/conferência, tratamento de ocorrências e trocas/devoluções.
-
-A entidade PEDIDO funciona como núcleo do processo de vendas, conectando cliente, canal, itens, pagamento e o fluxo pós-pagamento (separação, odorrência e, se necessário, troca/devolução).
-
-O modelo de estoque foi separado do cadastro de produtos para evitar redundância e permitir o controle da quantidade atual, verificado tanto pelo sistema quanto fisicamente quando necessário.
-
-A modelagem também foi preparada para crescer futuro, permitindo novos produtos, canais de venda, funções e tipos de operação sem alterar a estrutura principal.
-
----
-
-# 9. Uso de Inteligência Artificial
-
-A Inteligência Artificial foi utilizada como ferragem de apoio durante a adaptação deste modelo.
-
-| Item | Registro |
-|---|---|
-| **Ferramenta e etapa** | Claude (Antrópico), utilizado para analisar a estrutura do projeto original *Nós Café* e adaptar o modelo conceitual (entidades, dicionário de dados, DER e justificativas) com base em um novo levantamento de requisitos (respostas de entrevista sobre cadastro de produtos, pedidos, estoque, pagamento, separação, ocorrências e trocas/devoluções). |
-| **Motivação** | Reaproveitar a estrutura e o formato de um modelo conceitual já validado, adaptando o conteúdo a um novo contexto de negação. |
-| **Solicita utilizações** | "Analizar todo o projeto [repositório original] e faz uma cópia utilizando essas informações: [respostas da entrevista sobre cadastro de produtos, pedidos, estoque, pagamento, separação e trocas/devoluções]." |
-| **Resposta recebida** | Foi sugerida uma nova estrutura de entidades (CLIENTE, FUNCIONARIO, PRODUTO, ESTOQUE, PEDIDO, ITEM_PEDIDO, PAGAMENTO, SEPARACAO_PEDIDO, OCORRENCIA, TROCA_DEVOLUCAO), com dicionário de dados, DER e justificativas técnicas equivalentes ao projeto original. |
-| **Trechos rejeitados ou corrigidos** | **[Preencher após revisão do grupo]** — indicar aqui o que foi ajustado depois de validar com a operação real da loja (nomes de entidades, campos obrigatórios/opcionais, status possíveis, etc). |
-| **Justificativa da escola final** | **[Preencher após revisão do grupo]** — como decisões finais devem ser validadas com base na operação real observada, assim como no projeto original. |
-| **Reflexão crítica** | **[Preencher após revisão do grupo]** — este modelo é um ponto de partida gerado a partir das respostas da entrevista; recomendações-se validar nomes, obrigações e status com quem opera a loja no dia a dia antes de considerar o modelo final. |
-
----
-
-# Conclusão
-
-O modelo conceitual desenvolvido representa os principais processos identificados na entrevista: cadastro de produtos, realização do pedido (loja, WhatsApp e canais de venda), registro do pedido, controle de estoque, confirmação de pagamento, separação e conferência dos produtos, tratamento de ocorrências e troca/desenvolvimento.
-
-A modelagem foi estruturada para manter consistência entre os processos levantados, os requisitos, como registros de negação, o dicionário de dados e o DER — seguindo o mesmo formato do modelo original do projeto *Nós Café*, adaptado ao novo contexto de negação descrito na entrevista.
+| PRODUTO — ITEM_PED
