@@ -1,4 +1,4 @@
-# [Nome da Loja] — Modelo Conceitual de Banco de Dados
+# [Catel HLM] — Modelo Conceitual de Banco de Dados
 
 > **Base deste documento:** esta é uma cópia adaptada do modelo conceitual do projeto *Nós Café* (entidades, seções e formato preservados), reestruturada a partir de um novo levantamento de requisitos (entrevista) feito com a operação da loja aqui descrita. Onde não havia informação (nome oficial, CNPJ, endereço, integrantes do grupo), foi dado um placeholder entre colchetes `[ ]` para você preencher.
 
@@ -12,7 +12,7 @@
 
 ## Entrega 1 — Modelo Conceitual (DER)
 
-**Organização analisada:** [Nome da Loja]
+**Organização analisada:** [Catel HLM]
 **Unidade:** [Endereço da unidade]
 **Segmento:** Varejo de produtos, com venda em loja física, WhatsApp e canais de venda online
 
@@ -24,7 +24,7 @@
 
 ## Nome e natureza da organização
 
-Uma organização analisada é a **[Nome da Loja]**, atuante no segmento de varejo, com comercialização de produtos por meio de atendimento presencial na loja e também por canais remotos, como WhatsApp e outros canais de venda.
+Uma organização analisada é a **[Catel HLM]**, atuante no segmento de varejo, com comercialização de produtos por meio de atendimento presencial na loja e também por canais remotos, como WhatsApp e outros canais de venda.
 **CNPJ:** [CNPJ]
 **Site/Redes sociais:** [link]
 **Unidade analisada:** [fim completo]
