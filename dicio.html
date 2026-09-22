@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicionário de Dados — Catel HLM</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+        --paper: #EDF1F0;
+        --paper-line: #CBD9DA;
+        --panel: #FFFFFF;
+        --ink: #102229;
+        --muted: #55707A;
+        --hair: #C7D3D3;
+        --copper: #AD5F2B;
+        --copper-soft: #F3E1D1;
+        --steel: #33637F;
+        --steel-soft: #DCEAF0;
+        --navy: #0E2730;
+        --navy-line: rgba(217, 233, 236, .16);
+        --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+        --sans: 'IBM Plex Sans', 'Segoe UI', Arial, sans-serif;
+    }
+
+    * {
+        box-sizing: border-box
+    }
+
+    body {
+        margin: 0;
+        font-family: var(--sans);
+        background: var(--paper);
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- title-block bands (hero + footer) ---------- */
+
+    .titleblock {
+        position: relative;
+        background: var(--navy);
+        color: #E8F1F3;
+        padding: 46px 6vw 30px;
+        background-image:
+            linear-gradient(var(--navy-line) 1px, transparent 1px),
+            linear-gradient(90deg, var(--navy-line) 1px, transparent 1px);
+        background-size: 26px 26px;
+    }
+
+    .titleblock .crop {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 0 solid var(--copper);
+    }
+
+    .titleblock .crop.tl { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; }
+    .titleblock .crop.tr { top: 10px; right: 10px; border-top-width: 2px; border-right-width: 2px; }
+    .titleblock .crop.bl { bottom: 10px; left: 10px; border-bottom-width: 2px; border-left-width: 2px; }
+    .titleblock .crop.br { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }
+
+    .titleblock .eyebrow {
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: .08em;
+        color: #9FC3CE;
+        margin: 0 0 10px;
+        text-align: center;
+    }
+
+    .titleblock h1 {
+        margin: 0 auto;
+        text-align: center;
+        font-size: clamp(26px, 3.6vw, 40px);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        max-width: 900px;
+    }
+
+    .titleblock .sub {
+        margin: 14px auto 0;
+        max-width: 640px;
+        text-align: center;
+        color: #B9D2D9;
+        line-height: 1.6;
+        font-size: 14.5px;
+    }
+
+    .titleblock .sub b { color: #E8F1F3; font-weight: 600; }
+
+    .scope-line {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 18px 6vw 22px;
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 1.6;
+        border-bottom: 1px solid var(--hair);
+    }
+
+    main {
+        max-width: 1400px;
+        margin: 30px auto;
+        padding: 0 20px
+    }
+
+    /* ---------- spec strip (stat row) ---------- */
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        margin-bottom: 26px;
+        background: var(--panel);
+        border: 1px solid var(--hair);
+    }
+
+    .card {
+        padding: 18px 20px;
+        border-left: 1px solid var(--hair);
+        border-top: 3px solid var(--copper);
+    }
+
+    .card:first-child { border-left: none; }
+
+    .card b {
+        font-family: var(--mono);
+        font-size: 26px;
+        font-weight: 600;
+        display: block;
+        color: var(--ink);
+    }
+
+    .card span {
+        display: block;
+        color: var(--muted);
+        margin-top: 4px;
+        font-size: 12.5px;
+        letter-spacing: .02em;
+    }
+
+    /* ---------- panels ---------- */
+
+    .panel {
+        background: var(--panel);
+        border: 1px solid var(--hair);
+        margin-bottom: 20px;
+    }
+
+    main > .panel:first-of-type { border-top: 3px solid var(--steel); }
+
+    .panel-head {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--hair);
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .panel-head h2 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+        flex: 1;
+        letter-spacing: .01em;
+    }
+
+    main { counter-reset: ficha; }
+
+    .entity-panel { border-top: 3px solid var(--copper); }
+
+    .entity-panel .panel-head h2::before {
+        counter-increment: ficha;
+        content: "FICHA " counter(ficha, decimal-leading-zero) "/10 — ";
+        font-family: var(--mono);
+        font-weight: 500;
+        font-size: 12.5px;
+        color: var(--copper);
+        letter-spacing: .04em;
+        margin-right: 2px;
+    }
+
+    input,
+    select {
+        border: none;
+        border-bottom: 1.5px solid var(--ink);
+        border-radius: 0;
+        padding: 8px 4px;
+        background: transparent;
+        font-family: var(--mono);
+        font-size: 13.5px;
+        color: var(--ink);
+    }
+
+    input::placeholder { color: var(--muted); }
+    input:focus, select:focus { outline: none; border-bottom-color: var(--copper); }
+
+    input {
+        min-width: 280px
+    }
+
+    .note {
+        padding: 14px 20px;
+        background: var(--steel-soft);
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.55;
+        border-left: 3px solid var(--steel);
+    }
+
+    .table-wrap {
+        overflow: auto;
+        max-height: 650px
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 13.5px
+    }
+
+    th,
+    td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--hair);
+        text-align: left;
+        vertical-align: top
+    }
+
+    th {
+        position: sticky;
+        top: 0;
+        background: var(--navy);
+        color: #CBE1E7;
+        z-index: 1;
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) td { background: #F6F8F8; }
+    tr:hover td { background: var(--copper-soft); }
+
+    code, td code {
+        font-family: var(--mono);
+        background: #EEF3F3;
+        padding: 2px 6px;
+        border: 1px solid var(--hair);
+        font-size: 12.5px;
+    }
+
+    .tag {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 0;
+        background: var(--steel-soft);
+        color: var(--steel);
+        border-left: 3px solid var(--steel);
+        font-family: var(--mono);
+        font-size: 11.5px;
+        letter-spacing: .02em;
+    }
+
+    .tag.pk {
+        background: var(--copper-soft);
+        color: var(--copper);
+        border-left-color: var(--copper);
+    }
+
+    .tag.fk {
+        background: var(--steel-soft);
+        color: var(--steel);
+        border-left-color: var(--steel);
+    }
+
+    .schema {
+        padding: 20px
+    }
+
+    .schema-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--hair);
+    }
+
+    .schema-item {
+        background: var(--panel);
+        padding: 16px;
+    }
+
+    .schema-item strong {
+        display: block;
+        margin-bottom: 6px;
+        font-family: var(--mono);
+        font-size: 12.5px;
+        letter-spacing: .03em;
+        color: var(--copper);
+        text-transform: uppercase;
+    }
+
+    .code-block {
+        background: var(--navy);
+        color: #D9E9EC;
+        padding: 16px 18px;
+        border-radius: 0;
+        margin: 0 20px 18px;
+        border-left: 3px solid var(--copper);
+        font-family: var(--mono);
+        font-size: 13px;
+        line-height: 1.65;
+        overflow-x: auto;
+    }
+
+    .code-block .kw {
+        color: #E2A277;
+    }
+
+    .entity-desc {
+        padding: 0 20px 16px;
+        color: var(--muted);
+        font-size: 13.5px;
+        line-height: 1.6;
+    }
+
+    .indices-note {
+        padding: 12px 20px 18px;
+        font-size: 13px;
+        color: var(--muted);
+        font-family: var(--mono);
+        border-top: 1px dashed var(--hair);
+    }
+
+    .indices-note b {
+        color: var(--ink);
+        font-family: var(--sans);
+        font-weight: 600;
+    }
+
+    .flow-text {
+        padding: 20px;
+        line-height: 1.7;
+        color: var(--ink);
+        font-size: 14.5px;
+    }
+
+    .flow-text p {
+        margin: 0 0 12px;
+    }
+
+    .conv-grid {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    footer.titleblock {
+        text-align: center;
+        padding: 26px 6vw;
+        margin-top: 10px;
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: #9FC3CE;
+    }
+
+    #entityCount {
+        color: var(--muted);
+        font-size: 12.5px;
+        font-family: var(--mono);
+    }
+
+    @media(max-width:1100px) {
+        .conv-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media(max-width:900px) {
+
+        .grid,
+        .schema-grid {
+            grid-template-columns: 1fr 1fr
+        }
+
+        .card { border-top-width: 3px; border-left: none; border-bottom: 1px solid var(--hair); }
+    }
+
+    @media(max-width:600px) {
+
+        .grid,
+        .schema-grid {
+            grid-template-columns: 1fr
+        }
+
+        input {
+            min-width: 100%
+        }
+    }
+</style>
+
+<body>
+    <div class="titleblock">
+        <span class="crop tl"></span><span class="crop tr"></span>
+        <span class="crop bl"></span><span class="crop br"></span>
+        <h1>DICIONÁRIO DE DADOS - CATEL HLM</h1>
+        <header>
+            <p class="sub"><b>CATEL - HIDRÁULICOS, LOUÇAS E METAIS LTDA — CATEL HLM</b><br>
+                R. Itinguçu, 2190 - Vila Ré, São Paulo - SP, 03658-001</p>
+        </header>
+    </div>
+    <p class="scope-line">Dicionário de dados do modelo de banco (v1.0, 22/setembro/2026) — pedidos, produtos,
+        pagamentos, estoque, separação/conferência, ocorrências e trocas/devoluções.</p>
+    <main>
+        <section class="grid">
+            <div class="card"><b>10</b><span>entidades no modelo</span></div>
+            <div class="card"><b>10</b><span>relacionamentos mapeados</span></div>
+            <div class="card"><b>58</b><span>atributos documentados</span></div>
+            <div class="card"><b>MySQL 8</b><span>SGBD / InnoDB</span></div>
+            <div class="card"><b>v1.0</b><span>22/set/2026</span></div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <h2>1. Modelo conceitual</h2>
+            </div>
+            <div class="flow-text">
+                <p>Este modelo representa a operação de uma loja de materiais de construção em que o cliente realiza
+                    um pedido por um dos canais disponíveis (loja física, WhatsApp ou outros canais de venda), o
+                    pedido é composto por um ou mais itens de produto, é quitado por um ou mais pagamentos e, após a
+                    confirmação do pagamento, passa por separação/conferência antes de ser embalado. Quando algo dá
+                    errado no processo (produto errado, falta de estoque, problema na entrega), o caso é registrado
+                    como uma ocorrência; quando o cliente solicita troca, devolução ou reembolso de um produto já
+                    recebido, o caso é registrado separadamente como troca/devolução.</p>
+                <p><b>PEDIDO</b> é a entidade central do modelo: liga CLIENTE (quando há entrega), ITEM_PEDIDO,
+                    PAGAMENTO, SEPARACAO_PEDIDO, OCORRENCIA e TROCA_DEVOLUCAO. <b>ITEM_PEDIDO</b> é a entidade
+                    associativa que resolve o relacionamento N:M entre PEDIDO e PRODUTO.</p>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Entidade</th>
+                            <th>Relaciona-se com</th>
+                            <th>Cardinalidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag">CLIENTE</span></td>
+                            <td><span class="tag">PEDIDO</span></td>
+                            <td>1:N — um cliente pode realizar vários pedidos; o pedido pode não ter cliente
+                                identificado quando não há entrega</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">PEDIDO</span></td>
+                            <td><span class="tag">ITEM_PEDIDO</span></td>
+                            <td>1:N — todo pedido tem um ou mais itens</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">PRODUTO</span></td>
+                            <td><span class="tag">ITEM_PEDIDO</span></td>
+                            <td>1:N — um produto aparece em vários itens de pedido</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">PEDIDO</span></td>
+                            <td><span class="tag">PAGAMENTO</span></td>
+                            <td>1:N — um pedido pode ter mais de um pagamento registrado</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">PRODUTO</span></td>
+                            <td><span class="tag">ESTOQUE</span></td>
+                            <td>1:1 — todo produto possui exatamente um registro de estoque</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">FUNCIONARIO</span></td>
+                            <td><span class="tag">SEPARACAO_PEDIDO</span></td>
+                            <td>1:N — um funcionário realiza várias separações/conferências</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">PEDIDO</span></td>
+                            <td><span class="tag">SEPARACAO_PEDIDO</span></td>
+                            <td>1:N — um pedido pode ter mais de uma conferência (ex.: após correção de um problema)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">PEDIDO</span></td>
+                            <td><span class="tag">OCORRENCIA</span></td>
+                            <td>1:N — um pedido pode ter uma ou mais ocorrências registradas</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">PEDIDO</span></td>
+                            <td><span class="tag">TROCA_DEVOLUCAO</span></td>
+                            <td>1:N — um pedido pode originar uma ou mais solicitações de troca/devolução</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">PRODUTO</span></td>
+                            <td><span class="tag">TROCA_DEVOLUCAO</span></td>
+                            <td>1:N — um produto pode estar envolvido em várias solicitações de troca/devolução</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="entity-desc">
+                Cliente é a pessoa que realiza a compra, com cadastro obrigatório apenas quando o pedido é para
+                entrega. Funcionário é a pessoa responsável pela separação e conferência dos produtos antes do
+                envio. Produto é o item comercializado pela loja (materiais de hidráulica, louças, metais,
+                acabamentos, pisos, portas e janelas, entre outros). Estoque é a quantidade atualmente disponível
+                de cada produto. Pedido é o evento de compra, associado a um canal, um valor total e um status de
+                andamento. Item de pedido é cada produto e quantidade vendidos dentro de um pedido. Pagamento é o
+                registro de quitação de um pedido e seu status de aprovação. Separação de pedido é a conferência dos
+                produtos retirados do estoque antes do embalo. Ocorrência é o registro de um problema no processo do
+                pedido (produto errado, falta de estoque, problema na entrega) e da solução aplicada. Troca/devolução
+                é o registro de uma solicitação de pós-venda sobre um produto já recebido pelo cliente.
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <h2>2. Fluxo de dados (visão de DFD)</h2>
+            </div>
+            <div class="flow-text">
+                <p>Cliente escolhe o canal (loja física, WhatsApp ou canal de venda) → o pedido é registrado em
+                    PEDIDO, vinculado a CLIENTE quando há entrega → cada produto escolhido gera um registro em
+                    ITEM_PEDIDO, referenciando PRODUTO e preservando o preço praticado naquele momento → a
+                    disponibilidade é verificada em ESTOQUE, com conferência física quando necessário → o pedido é
+                    quitado por um ou mais registros em PAGAMENTO → somente quando o pagamento está com status
+                    Aprovado o pedido é liberado para SEPARACAO_PEDIDO, onde um FUNCIONARIO retira os produtos do
+                    estoque e confere quantidade e correspondência com o pedido → se a conferência é Divergente ou
+                    surge um problema na entrega, é aberta uma OCORRENCIA, com tipo, descrição e solução aplicada
+                    (substituição, correção do pedido ou nova entrega) → após a entrega, o cliente pode solicitar uma
+                    TROCA_DEVOLUCAO sobre um produto já recebido, informando motivo e condição do produto, com status
+                    evoluindo de Em Análise até Aprovada/Concluída ou Recusada. A entrada e a reposição de estoque
+                    (compra junto a fornecedores) continuam sendo controladas manualmente pela operação e estão fora
+                    do escopo desta primeira versão do modelo.</p>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <h2>3. Convenções do dicionário</h2>
+            </div>
+            <div class="conv-grid">
+                <div>
+                    <div class="schema-item" style="margin-bottom:14px">
+                        <strong>SGBD</strong>
+                        MySQL 8, mecanismo de armazenamento InnoDB — cuida da persistência dos dados, do log de
+                        transações (redo/undo) e mantém o índice primário clusterizado por chave.
+                    </div>
+                    <div class="schema-item">
+                        <strong>Codificação de caracteres</strong>
+                        utf8mb4 com collation utf8mb4_0900_ai_ci — cobre acentuação do português (nomes de clientes,
+                        produtos, observações) sem perda, e é compatível com qualquer caractere Unicode usado em
+                        campos de texto livre.
+                    </div>
+                </div>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Símbolo</th>
+                                <th>Significado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>=</code></td>
+                                <td>é composto de</td>
+                            </tr>
+                            <tr>
+                                <td><code>+</code></td>
+                                <td>e (conecta elementos obrigatórios)</td>
+                            </tr>
+                            <tr>
+                                <td><code>( )</code></td>
+                                <td>opcional</td>
+                            </tr>
+                            <tr>
+                                <td><code>{ }, n{ }m</code></td>
+                                <td>iteração, com limite mínimo n e máximo m</td>
+                            </tr>
+                            <tr>
+                                <td><code>[ | ]</code></td>
+                                <td>escolha obrigatória entre alternativas</td>
+                            </tr>
+                            <tr>
+                                <td><code>/ /</code></td>
+                                <td>rótulo de um grupo repetitivo</td>
+                            </tr>
+                            <tr>
+                                <td><code>@</code></td>
+                                <td>identificador (chave primária)</td>
+                            </tr>
+                            <tr>
+                                <td><code>* *</code></td>
+                                <td>comentário, fora da estrutura formal</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="note">
+                <b>Prefixos:</b> <code>NM_</code> nome, <code>DT_</code> data, <code>ID_</code> identificador (não
+                sofre operação matemática), <code>CD_</code> código de domínio, <code>NR_</code> número (não sofre
+                operação matemática, ex.: telefone, CPF/CNPJ), <code>QT_</code> quantidade, <code>TP_</code> tipo
+                (categorização), <code>VL_</code> valor monetário, <code>DS_</code> descrição/texto livre.
+                <br><br>
+                <b>Nomenclatura física:</b> as colunas físicas do banco (as mesmas usadas no README do projeto)
+                seguem <code>snake_case</code> minúsculo, sem prefixo — por isso cada atributo nas tabelas abaixo traz
+                o nome lógico prefixado (dicionário) e a coluna física correspondente na tabela implementada.
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <h2>4. Dicionário de dados por entidade</h2>
+                <input id="searchEntities" onkeyup="filterEntities(this.value)"
+                    placeholder="Pesquisar entidade ou atributo...">
+                <span id="entityCount"></span>
+            </div>
+        </section>
+
+        <!-- CLIENTE -->
+        <section class="panel entity-panel" data-entity="CLIENTE cliente id_cliente nome telefone endereco cpf cnpj">
+            <div class="panel-head">
+                <h2>CLIENTE</h2>
+            </div>
+            <div class="code-block">CLIENTE = @ID_CLIENTE + (NM_CLIENTE) + (NR_TELEFONE) + (DS_ENDERECO) +
+                (ID_CPF_CNPJ)</div>
+            <div class="entity-desc"><code>@ID_CLIENTE</code> é o identificador único. Os demais campos são
+                opcionais no cadastro isolado do cliente, mas <code>NM_CLIENTE</code>, <code>NR_TELEFONE</code> e
+                <code>DS_ENDERECO</code> tornam-se obrigatórios quando o pedido associado é do tipo
+                <code>ENTREGA</code> (regra aplicada em PEDIDO); <code>ID_CPF_CNPJ</code> é opcional e, quando
+                informado, deve ser único.</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_CLIENTE</span></td>
+                            <td><code>id_cliente</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único do cliente; não sofre operação matemática.</td>
+                        </tr>
+                        <tr>
+                            <td>NM_CLIENTE</td>
+                            <td><code>nome</code></td>
+                            <td>varchar(255)</td>
+                            <td>Condicional (entrega)</td>
+                            <td>Nome do cliente, usado para identificação em pedidos com entrega.</td>
+                        </tr>
+                        <tr>
+                            <td>NR_TELEFONE</td>
+                            <td><code>telefone</code></td>
+                            <td>varchar(20)</td>
+                            <td>Condicional (entrega)</td>
+                            <td>Telefone/WhatsApp de contato do cliente.</td>
+                        </tr>
+                        <tr>
+                            <td>DS_ENDERECO</td>
+                            <td><code>endereco</code></td>
+                            <td>varchar(255)</td>
+                            <td>Condicional (entrega)</td>
+                            <td>Endereço usado para entrega do pedido.</td>
+                        </tr>
+                        <tr>
+                            <td>ID_CPF_CNPJ</td>
+                            <td><code>cpf_cnpj</code></td>
+                            <td>varchar(20)</td>
+                            <td>Não (único quando informado)</td>
+                            <td>CPF ou CNPJ do cliente; dado pessoal, coletado apenas quando o próprio cliente o
+                                informa.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_CLIENTE</code> (clusterizado); índice único em
+                <code>ID_CPF_CNPJ</code> (permite nulo, mas impede duplicidade quando preenchido).</div>
+        </section>
+
+        <!-- FUNCIONARIO -->
+        <section class="panel entity-panel" data-entity="FUNCIONARIO funcionario id_funcionario nome cargo">
+            <div class="panel-head">
+                <h2>FUNCIONARIO</h2>
+            </div>
+            <div class="code-block">FUNCIONARIO = @ID_FUNCIONARIO + NM_FUNCIONARIO + DS_CARGO</div>
+            <div class="entity-desc">Os três campos são obrigatórios e conectados por <code>+</code>; não há grupo
+                opcional nesta entidade.</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_FUNCIONARIO</span></td>
+                            <td><code>id_funcionario</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único do funcionário.</td>
+                        </tr>
+                        <tr>
+                            <td>NM_FUNCIONARIO</td>
+                            <td><code>nome</code></td>
+                            <td>varchar(255)</td>
+                            <td>Sim</td>
+                            <td>Nome do funcionário; aparece nos registros de separação/conferência.</td>
+                        </tr>
+                        <tr>
+                            <td>DS_CARGO</td>
+                            <td><code>cargo</code></td>
+                            <td>varchar(100)</td>
+                            <td>Sim</td>
+                            <td>Função exercida (ex.: separação, atendimento); usada em relatórios de produtividade.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_FUNCIONARIO</code>.</div>
+        </section>
+
+        <!-- PRODUTO -->
+        <section class="panel entity-panel"
+            data-entity="PRODUTO produto id_produto nome codigo preco marca unidade venda">
+            <div class="panel-head">
+                <h2>PRODUTO</h2>
+            </div>
+            <div class="code-block">PRODUTO = @ID_PRODUTO + NM_PRODUTO + CD_PRODUTO + VL_PRECO + (DS_MARCA) +
+                (CD_UNIDADE_VENDA)</div>
+            <div class="entity-desc"><code>CD_PRODUTO</code> é o código (SKU/código de barras) usado no cadastro e na
+                conferência; <code>(DS_MARCA)</code> e <code>(CD_UNIDADE_VENDA)</code> são opcionais porque dependem
+                do tipo de produto (nem todo item de materiais de construção tem marca relevante ou é vendido em
+                unidade diferente de "unidade").</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_PRODUTO</span></td>
+                            <td><code>id_produto</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único do produto.</td>
+                        </tr>
+                        <tr>
+                            <td>NM_PRODUTO</td>
+                            <td><code>nome</code></td>
+                            <td>varchar(255)</td>
+                            <td>Sim</td>
+                            <td>Nome do produto exibido no cadastro e na conferência do pedido.</td>
+                        </tr>
+                        <tr>
+                            <td>CD_PRODUTO</td>
+                            <td><code>codigo</code></td>
+                            <td>varchar(50)</td>
+                            <td>Sim (único)</td>
+                            <td>Código do produto (SKU/código de barras); evita duplicidade de cadastro do mesmo
+                                item.</td>
+                        </tr>
+                        <tr>
+                            <td>VL_PRECO</td>
+                            <td><code>preco</code></td>
+                            <td>decimal(10,2)</td>
+                            <td>Sim (&gt;0)</td>
+                            <td>Preço de venda atual do produto.</td>
+                        </tr>
+                        <tr>
+                            <td>DS_MARCA</td>
+                            <td><code>marca</code></td>
+                            <td>varchar(100)</td>
+                            <td>Não</td>
+                            <td>Marca do produto (ex.: Tigre, Deca, Docol), quando aplicável ao tipo de item.</td>
+                        </tr>
+                        <tr>
+                            <td>CD_UNIDADE_VENDA</td>
+                            <td><code>unidade_venda</code></td>
+                            <td>varchar(20)</td>
+                            <td>Não</td>
+                            <td>Unidade usada na venda (unidade, m², metro, saco, kg, etc.), quando aplicável ao tipo
+                                de item.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_PRODUTO</code>; índice único em
+                <code>CD_PRODUTO</code>; índice em <code>NM_PRODUTO</code> (busca por nome no cadastro).</div>
+        </section>
+
+        <!-- ESTOQUE -->
+        <section class="panel entity-panel"
+            data-entity="ESTOQUE estoque id_estoque quantidade disponivel atualizacao">
+            <div class="panel-head">
+                <h2>ESTOQUE</h2>
+            </div>
+            <div class="code-block">ESTOQUE = @ID_ESTOQUE + ID_PRODUTO + QT_DISPONIVEL + DT_ATUALIZACAO</div>
+            <div class="entity-desc"><code>ID_PRODUTO</code> obrigatório e único garante o 1:1 com PRODUTO, evitando
+                duas fontes de quantidade disponível para o mesmo item.</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_ESTOQUE</span></td>
+                            <td><code>id_estoque</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único do registro de estoque.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_PRODUTO</span></td>
+                            <td><code>id_produto</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK, único)</td>
+                            <td>Produto controlado; a unicidade garante o 1:1.</td>
+                        </tr>
+                        <tr>
+                            <td>QT_DISPONIVEL</td>
+                            <td><code>quantidade_disponivel</code></td>
+                            <td>integer</td>
+                            <td>Sim (&gt;=0)</td>
+                            <td>Quantidade atualmente disponível para venda.</td>
+                        </tr>
+                        <tr>
+                            <td>DT_ATUALIZACAO</td>
+                            <td><code>data_atualizacao</code></td>
+                            <td>datetime</td>
+                            <td>Sim</td>
+                            <td>Data/hora da última movimentação (venda ou reposição) que alterou a quantidade.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_ESTOQUE</code>; índice único em
+                <code>ID_PRODUTO</code> (garante o 1:1 e acelera "consultar estoque do produto X").</div>
+        </section>
+
+        <!-- PEDIDO -->
+        <section class="panel entity-panel"
+            data-entity="PEDIDO pedido id_pedido cliente canal entrega endereco valor status">
+            <div class="panel-head">
+                <h2>PEDIDO</h2>
+            </div>
+            <div class="code-block">PEDIDO = @ID_PEDIDO + (ID_CLIENTE) + DT_HORA_PEDIDO +<br>
+                &nbsp;&nbsp;[TP_LOJA | TP_WHATSAPP | TP_CANAL_VENDA] + [TP_RETIRADA | TP_ENTREGA] +<br>
+                &nbsp;&nbsp;(DS_ENDERECO_ENTREGA) + VL_TOTAL + TP_STATUS_PEDIDO</div>
+            <div class="entity-desc"><code>(ID_CLIENTE)</code> é condicional — obrigatório quando
+                <code>TP_ENTREGA</code> é escolhido; <code>[TP_LOJA | TP_WHATSAPP | TP_CANAL_VENDA]</code> exige
+                escolher exatamente um canal de origem; <code>[TP_RETIRADA | TP_ENTREGA]</code> exige escolher
+                exatamente um tipo de entrega; <code>(DS_ENDERECO_ENTREGA)</code> só é obrigatório quando
+                <code>TP_ENTREGA</code> é escolhido; <code>VL_TOTAL</code> é calculado a partir da soma dos itens do
+                pedido.</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_PEDIDO</span></td>
+                            <td><code>id_pedido</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único do pedido.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_CLIENTE</span></td>
+                            <td><code>id_cliente</code></td>
+                            <td>integer</td>
+                            <td>Condicional (FK)</td>
+                            <td>Preenchido quando <code>TP_TIPO_ENTREGA = ENTREGA</code>.</td>
+                        </tr>
+                        <tr>
+                            <td>DT_HORA_PEDIDO</td>
+                            <td><code>data_hora</code></td>
+                            <td>datetime</td>
+                            <td>Sim</td>
+                            <td>Data e horário do registro do pedido.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_CANAL_PEDIDO</td>
+                            <td><code>canal_pedido</code></td>
+                            <td>varchar(20) [LOJA|WHATSAPP|CANAL_VENDA]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Canal de origem do pedido: loja física, WhatsApp ou outro canal de venda.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_TIPO_ENTREGA</td>
+                            <td><code>tipo_entrega</code></td>
+                            <td>varchar(20) [RETIRADA|ENTREGA]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Indica se o pedido é retirado na loja ou entregue; define quais campos condicionais
+                                se aplicam.</td>
+                        </tr>
+                        <tr>
+                            <td>DS_ENDERECO_ENTREGA</td>
+                            <td><code>endereco_entrega</code></td>
+                            <td>varchar(255)</td>
+                            <td>Condicional</td>
+                            <td>Endereço para entrega do pedido; obrigatório quando <code>tipo_entrega = ENTREGA</code>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>VL_TOTAL</td>
+                            <td><code>valor_total</code></td>
+                            <td>decimal(10,2)</td>
+                            <td>Sim (calculado)</td>
+                            <td>Soma dos subtotais dos itens do pedido.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_STATUS_PEDIDO</td>
+                            <td><code>status_pedido</code></td>
+                            <td>varchar(30) [REGISTRADO|PAGO|EM_SEPARACAO|CONFERIDO|ENVIADO|ENTREGUE|
+                                COM_OCORRENCIA|CANCELADO]</td>
+                            <td>Sim</td>
+                            <td>Situação do pedido no fluxo, atualizada conforme a confirmação do pagamento, a
+                                separação/conferência e eventuais ocorrências.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_PEDIDO</code>; índices em <code>ID_CLIENTE</code>
+                (FK) e em <code>DT_HORA_PEDIDO</code> (consultas e fechamento por período).</div>
+        </section>
+
+        <!-- ITEM_PEDIDO -->
+        <section class="panel entity-panel"
+            data-entity="ITEM_PEDIDO item pedido id_item quantidade preco unitario">
+            <div class="panel-head">
+                <h2>ITEM_PEDIDO</h2>
+            </div>
+            <div class="code-block">ITEM_PEDIDO = @ID_ITEM + ID_PEDIDO + ID_PRODUTO + QT_ITEM + VL_UNITARIO</div>
+            <div class="entity-desc"><code>ID_PEDIDO</code> e <code>ID_PRODUTO</code> são as chaves estrangeiras que
+                resolvem a relação N:M entre PEDIDO e PRODUTO; <code>VL_UNITARIO</code> é copiado de PRODUTO no
+                momento da venda para preservar o preço histórico, mesmo que o preço do produto mude depois.</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_ITEM</span></td>
+                            <td><code>id_item</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único do item de pedido.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_PEDIDO</span></td>
+                            <td><code>id_pedido</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK)</td>
+                            <td>Pedido ao qual o item pertence.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_PRODUTO</span></td>
+                            <td><code>id_produto</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK)</td>
+                            <td>Produto vendido nesse item.</td>
+                        </tr>
+                        <tr>
+                            <td>QT_ITEM</td>
+                            <td><code>quantidade</code></td>
+                            <td>integer</td>
+                            <td>Sim (&gt;0)</td>
+                            <td>Quantidade do produto naquele item.</td>
+                        </tr>
+                        <tr>
+                            <td>VL_UNITARIO</td>
+                            <td><code>preco_unitario</code></td>
+                            <td>decimal(10,2)</td>
+                            <td>Sim</td>
+                            <td>Preço praticado no momento da venda; preserva histórico independente de reajustes
+                                futuros.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_ITEM</code>; índices em <code>ID_PEDIDO</code> e
+                <code>ID_PRODUTO</code> (FKs).</div>
+        </section>
+
+        <!-- PAGAMENTO -->
+        <section class="panel entity-panel"
+            data-entity="PAGAMENTO pagamento id_pagamento pix credito debito dinheiro aprovado recusado pendente">
+            <div class="panel-head">
+                <h2>PAGAMENTO</h2>
+            </div>
+            <div class="code-block">PAGAMENTO = @ID_PAGAMENTO + ID_PEDIDO + [TP_PIX | TP_CREDITO | TP_DEBITO |
+                TP_DINHEIRO] +<br>
+                &nbsp;&nbsp;VL_PAGAMENTO + [TP_APROVADO | TP_RECUSADO | TP_PENDENTE] + DT_HORA_PAGAMENTO</div>
+            <div class="entity-desc">Um pedido pode ter <code>1{ }N</code> pagamentos, cada um ligado por
+                <code>ID_PEDIDO</code>; <code>[TP_PIX | TP_CREDITO | TP_DEBITO | TP_DINHEIRO]</code> exige escolher
+                exatamente uma forma por registro; o pedido só é liberado para SEPARACAO_PEDIDO quando existe um
+                PAGAMENTO com <code>TP_STATUS_PGTO = APROVADO</code>.</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_PAGAMENTO</span></td>
+                            <td><code>id_pagamento</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único do pagamento.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_PEDIDO</span></td>
+                            <td><code>id_pedido</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK)</td>
+                            <td>Pedido a que este pagamento se refere.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_FORMA_PAGTO</td>
+                            <td><code>forma_pagamento</code></td>
+                            <td>varchar(20) [PIX|CREDITO|DEBITO|DINHEIRO]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Forma de pagamento utilizada.</td>
+                        </tr>
+                        <tr>
+                            <td>VL_PAGAMENTO</td>
+                            <td><code>valor_pagamento</code></td>
+                            <td>decimal(10,2)</td>
+                            <td>Sim (&gt;0)</td>
+                            <td>Valor quitado nesta forma.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_STATUS_PGTO</td>
+                            <td><code>status_pagamento</code></td>
+                            <td>varchar(20) [APROVADO|RECUSADO|PENDENTE]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Situação do pagamento; só um pagamento Aprovado libera o pedido para separação.</td>
+                        </tr>
+                        <tr>
+                            <td>DT_HORA_PAGAMENTO</td>
+                            <td><code>data_hora_pagamento</code></td>
+                            <td>datetime</td>
+                            <td>Sim</td>
+                            <td>Data e horário em que o pagamento foi processado.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_PAGAMENTO</code>; índice em
+                <code>ID_PEDIDO</code> (localizar todos os pagamentos de um pedido); índice em
+                <code>DT_HORA_PAGAMENTO</code> (fechamento por período).</div>
+        </section>
+
+        <!-- SEPARACAO_PEDIDO -->
+        <section class="panel entity-panel"
+            data-entity="SEPARACAO_PEDIDO separacao conferencia id_separacao funcionario divergente conferido observacao">
+            <div class="panel-head">
+                <h2>SEPARACAO_PEDIDO</h2>
+            </div>
+            <div class="code-block">SEPARACAO_PEDIDO = @ID_SEPARACAO + ID_PEDIDO + ID_FUNCIONARIO +
+                DT_HORA_SEPARACAO +<br>
+                &nbsp;&nbsp;[TP_CONFERIDO | TP_DIVERGENTE] + (DS_OBSERVACAO)</div>
+            <div class="entity-desc">Representa a etapa em que o funcionário retira os produtos do estoque e confere
+                quantidade e correspondência com o pedido antes do embalo; <code>[TP_CONFERIDO | TP_DIVERGENTE]</code>
+                exige escolher exatamente um resultado; <code>(DS_OBSERVACAO)</code> é opcional e costuma ser
+                preenchido quando o resultado é Divergente.</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_SEPARACAO</span></td>
+                            <td><code>id_separacao</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único da separação/conferência.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_PEDIDO</span></td>
+                            <td><code>id_pedido</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK)</td>
+                            <td>Pedido relacionado à separação.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_FUNCIONARIO</span></td>
+                            <td><code>id_funcionario</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK)</td>
+                            <td>Funcionário responsável pela separação/conferência.</td>
+                        </tr>
+                        <tr>
+                            <td>DT_HORA_SEPARACAO</td>
+                            <td><code>data_hora_separacao</code></td>
+                            <td>datetime</td>
+                            <td>Sim</td>
+                            <td>Data e horário em que a separação/conferência foi realizada.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_STATUS_CONFERENCIA</td>
+                            <td><code>status_conferencia</code></td>
+                            <td>varchar(20) [CONFERIDO|DIVERGENTE]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Resultado da conferência de quantidade e produto.</td>
+                        </tr>
+                        <tr>
+                            <td>DS_OBSERVACAO</td>
+                            <td><code>observacao</code></td>
+                            <td>varchar(255)</td>
+                            <td>Não</td>
+                            <td>Observações sobre a conferência, especialmente quando divergente.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_SEPARACAO</code>; índices em
+                <code>ID_PEDIDO</code> e <code>ID_FUNCIONARIO</code> (FKs).</div>
+        </section>
+
+        <!-- OCORRENCIA -->
+        <section class="panel entity-panel"
+            data-entity="OCORRENCIA ocorrencia id_ocorrencia produto errado falta estoque entrega solucao aberta resolvida">
+            <div class="panel-head">
+                <h2>OCORRENCIA</h2>
+            </div>
+            <div class="code-block">OCORRENCIA = @ID_OCORRENCIA + ID_PEDIDO + [TP_PRODUTO_ERRADO | TP_FALTA_ESTOQUE |
+                TP_PROBLEMA_ENTREGA | TP_OUTRO] +<br>
+                &nbsp;&nbsp;DS_DESCRICAO + (TP_SOLUCAO_APLICADA) + [TP_ABERTA | TP_RESOLVIDA] +
+                DT_HORA_OCORRENCIA</div>
+            <div class="entity-desc">Registra problemas identificados no processo do pedido (antes ou durante a
+                entrega); <code>(TP_SOLUCAO_APLICADA)</code> é opcional porque só é preenchido depois que a equipe
+                resolve o caso, mudando <code>TP_STATUS_OCORRENCIA</code> para Resolvida.</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_OCORRENCIA</span></td>
+                            <td><code>id_ocorrencia</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único da ocorrência.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_PEDIDO</span></td>
+                            <td><code>id_pedido</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK)</td>
+                            <td>Pedido relacionado à ocorrência.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_OCORRENCIA</td>
+                            <td><code>tipo_ocorrencia</code></td>
+                            <td>varchar(30) [PRODUTO_ERRADO|FALTA_ESTOQUE|PROBLEMA_ENTREGA|OUTRO]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Tipo do problema identificado.</td>
+                        </tr>
+                        <tr>
+                            <td>DS_DESCRICAO</td>
+                            <td><code>descricao</code></td>
+                            <td>varchar(255)</td>
+                            <td>Sim</td>
+                            <td>Descrição do problema relatado pelo cliente ou identificado pela equipe.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_SOLUCAO_APLICADA</td>
+                            <td><code>solucao_aplicada</code></td>
+                            <td>varchar(30) [SUBSTITUICAO|CORRECAO_PEDIDO|NOVA_ENTREGA|OUTRO]</td>
+                            <td>Não</td>
+                            <td>Solução dada ao problema; preenchida ao resolver o caso.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_STATUS_OCORRENCIA</td>
+                            <td><code>status_ocorrencia</code></td>
+                            <td>varchar(20) [ABERTA|RESOLVIDA]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Situação da ocorrência.</td>
+                        </tr>
+                        <tr>
+                            <td>DT_HORA_OCORRENCIA</td>
+                            <td><code>data_hora</code></td>
+                            <td>datetime</td>
+                            <td>Sim</td>
+                            <td>Data e horário do registro da ocorrência.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_OCORRENCIA</code>; índice em
+                <code>ID_PEDIDO</code> (FK); índice em <code>TP_STATUS_OCORRENCIA</code> (fila de casos em aberto).
+            </div>
+        </section>
+
+        <!-- TROCA_DEVOLUCAO -->
+        <section class="panel entity-panel"
+            data-entity="TROCA_DEVOLUCAO troca devolucao reembolso id_troca motivo condicao analise aprovada concluida recusada">
+            <div class="panel-head">
+                <h2>TROCA_DEVOLUCAO</h2>
+            </div>
+            <div class="code-block">TROCA_DEVOLUCAO = @ID_TROCA + ID_PEDIDO + ID_PRODUTO + DS_MOTIVO +<br>
+                &nbsp;&nbsp;DS_CONDICAO_PRODUTO + [TP_TROCA | TP_DEVOLUCAO | TP_REEMBOLSO] +<br>
+                &nbsp;&nbsp;[TP_EM_ANALISE | TP_APROVADA | TP_CONCLUIDA | TP_RECUSADA] + DT_HORA_SOLICITACAO</div>
+            <div class="entity-desc">Mantida separada de OCORRENCIA por tratar da pós-venda de um produto já
+                recebido pelo cliente; <code>[TP_TROCA | TP_DEVOLUCAO | TP_REEMBOLSO]</code> exige escolher
+                exatamente um tipo de solicitação, e <code>[TP_EM_ANALISE | TP_APROVADA | TP_CONCLUIDA |
+                    TP_RECUSADA]</code> representa o andamento até a resolução, seguindo o procedimento da empresa.
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Coluna no BD</th>
+                            <th>Tipo físico</th>
+                            <th>Obrigatório</th>
+                            <th>Significado e relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag pk">ID_TROCA</span></td>
+                            <td><code>id_troca</code></td>
+                            <td>integer</td>
+                            <td>Sim (PK)</td>
+                            <td>Identificador único da solicitação.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_PEDIDO</span></td>
+                            <td><code>id_pedido</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK)</td>
+                            <td>Pedido relacionado à solicitação.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag fk">ID_PRODUTO</span></td>
+                            <td><code>id_produto</code></td>
+                            <td>integer</td>
+                            <td>Sim (FK)</td>
+                            <td>Produto envolvido na troca/devolução.</td>
+                        </tr>
+                        <tr>
+                            <td>DS_MOTIVO</td>
+                            <td><code>motivo</code></td>
+                            <td>varchar(255)</td>
+                            <td>Sim</td>
+                            <td>Motivo informado pelo cliente para a solicitação.</td>
+                        </tr>
+                        <tr>
+                            <td>DS_CONDICAO_PRODUTO</td>
+                            <td><code>condicao_produto</code></td>
+                            <td>varchar(100)</td>
+                            <td>Sim</td>
+                            <td>Condição do produto no momento da análise da solicitação.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_SOLICITACAO</td>
+                            <td><code>tipo_solicitacao</code></td>
+                            <td>varchar(20) [TROCA|DEVOLUCAO|REEMBOLSO]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Tipo de solicitação de pós-venda.</td>
+                        </tr>
+                        <tr>
+                            <td>TP_STATUS_SOLICITACAO</td>
+                            <td><code>status_solicitacao</code></td>
+                            <td>varchar(20) [EM_ANALISE|APROVADA|CONCLUIDA|RECUSADA]</td>
+                            <td>Sim (escolha)</td>
+                            <td>Situação da solicitação, seguindo o procedimento da empresa.</td>
+                        </tr>
+                        <tr>
+                            <td>DT_HORA_SOLICITACAO</td>
+                            <td><code>data_hora</code></td>
+                            <td>datetime</td>
+                            <td>Sim</td>
+                            <td>Data e horário do registro da solicitação.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-note"><b>Índices:</b> PK <code>ID_TROCA</code>; índices em <code>ID_PEDIDO</code> e
+                <code>ID_PRODUTO</code> (FKs).</div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <h2>5. Observação sobre dados pessoais</h2>
+            </div>
+            <div class="note">
+                Em CLIENTE, <code>ID_CPF_CNPJ</code> é dado pessoal opcional (LGPD, art. 5º, II), e
+                <code>NR_TELEFONE</code> e <code>DS_ENDERECO</code> são dados pessoais coletados apenas quando o
+                pedido é do tipo <code>ENTREGA</code>. Por não serem exigidos para uma compra retirada na loja, o
+                tratamento desses dados deve se limitar às finalidades de identificação, contato e realização da
+                entrega, sem uso para outras finalidades sem base legal ou consentimento.
+            </div>
+        </section>
+
+        <footer class="titleblock">
+            <span class="crop tl"></span><span class="crop tr"></span>
+            <span class="crop bl"></span><span class="crop br"></span>
+            Dicionário de Dados — Catel HLM · v1.0 · 22/setembro/2026
+        </footer>
+    </main>
+
+    <script>
+        function filterEntities(query) {
+            const q = query.trim().toLowerCase();
+            const panels = document.querySelectorAll('.entity-panel');
+            let visible = 0;
+            panels.forEach(function (panel) {
+                const haystack = panel.getAttribute('data-entity').toLowerCase();
+                const match = haystack.indexOf(q) !== -1;
+                panel.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+            const counter = document.getElementById('entityCount');
+            if (q) {
+                counter.textContent = visible + ' de ' + panels.length + ' entidades';
+            } else {
+                counter.textContent = panels.length + ' entidades';
+            }
+        }
+        filterEntities('');
+    </script>
+</body>
+
+</html>

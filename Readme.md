@@ -9,6 +9,7 @@
 | Benjamim Osmar | 47352663 |
 | Carlos Daniel | 42869234 |
 | Guilherme Enzo | [RGM] |
+|  | 47352663 |
 
 ## Entrega 1 — Modelo Conceitual (DER)
 
