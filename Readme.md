@@ -1,6 +1,6 @@
 # Catel HLM — Modelo Conceitual de Banco de Dados
 
-> **Base deste documento:** esta é uma cópia adaptada do modelo conceitual do projeto *Nós Café* (entidades, seções e formato preservados), reestruturada a partir de um novo levantamento de requisitos (entrevista) feito com a operação da **Catel HLM**, loja de materiais de construção (hidráulica, louças e metais) localizada na Vila Ré, São Paulo/SP. Dados de endereço, segmento e CNAE foram confirmados via Google Maps e portal AECweb; o CNPJ baixo corresponde a uma empresa de mesmo nome, minha atividade e minha cidade, mas não foi possível confirmar o endereço exato na base pública gratuita consultada — vale conferir antes de usar oficialmente
+> **Base deste documento:** esta é uma cópia adaptada do modelo conceitual do projeto *Nós Café* (entidades, seções e formato preservados), reestruturada a partir de um novo levantamento de requisitos (entrevista) feito com a operação da **Catel HLM**, loja de materiais de construção (hidráulica, louças e metais) localizada na Vila Ré, São Paulo/SP. Dados de endereço, segmento e CNAE foram confirmados via Google Maps e portal AECweb; o CNPJ baixo corresponde a uma empresa de mesmo nome, minha atividade e minha cidade, mas não foi possível confirmar o endereço exato na base pública gratuita consultada — vale conferir antes de usar oficialmente.
 
 # Integrantes
 
