@@ -1,6 +1,10 @@
-# Catel HLM — Modelo Conceitual de Banco de Dados
+# Catel HLM — Modelo Conceitual e Arquitetura de Dados
 
-> **Base deste documento:** Esta e uma restrutura a partir de um novo levantamento de requisitos (entrevista) feito com a operação da **Catel HLM**, loja de materiais de construção (hidráulica, louças e metais) localizada na Vila Ré, São Paulo/SP. Dados de endereço, segmento e CNAE foram confirmados via Google Maps e portal AECweb; o CNPJ baixo corresponde a uma empresa de mesmo nome, minha atividade e minha cidade, mas não foi possível confirmar o endereço exato na base pública gratuita consultada — vale conferir antes de usar oficialmente
+A organização escolhida é a **CATEL HLM COMÉRCIO DE MATERIAIS DE CONSTRUÇÃO LTDA.** (conhecida comercialmente como **Catel HLM**). A empresa atua no segmento de materiais de construção — com forte especialização em hidráulica, louças e metais —, operando de forma híbrida com atendimento de loja física e comercialização digital através de seu e-commerce oficial.
+
+**CNPJ:** 06.969.238/0001-06  
+**Site:** [https://catelhlm.com.br/](https://catelhlm.com.br/)  
+**Unidade comprovada:** R. Itinguçu, 2190 - Vila Ré, São Paulo - SP, CEP: 03658-001
 
 # Integrantes
 
