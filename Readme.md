@@ -1,9 +1,9 @@
 # Catel HLM — Modelo Conceitual e Arquitetura de Dados
 
-A organização escolhida é a **CATEL HLM COMÉRCIO DE MATERIAIS DE CONSTRUÇÃO LTDA.** (conhecida comercialmente como **Catel HLM**). A empresa atua no segmento de materiais de construção — com forte especialização em hidráulica, louças e metais —, operando de forma híbrida com atendimento de loja física e comercialização digital através de seu e-commerce oficial.
+A organização escolhida é a **Catel - Hidráulicos, Louças e Metais Ltda** (conhecida comercialmente como **Catel HLM**). A empresa atua no segmento de materiais de construção — com forte especialização em hidráulica, louças e metais —, operando de forma híbrida com atendimento de loja física e comercialização digital através de seu e-commerce oficial.
 
 **CNPJ:** 06.969.238/0001-06  
-**Site:** [https://catelhlm.com.br/](https://catelhlm.com.br/)  
+**Site:** [https://catelhlm.com.br/](https://catelhlm.com.br/)
 **Unidade comprovada:** R. Itinguçu, 2190 - Vila Ré, São Paulo - SP, CEP: 03658-001
 
 # Integrantes
@@ -14,12 +14,6 @@ A organização escolhida é a **CATEL HLM COMÉRCIO DE MATERIAIS DE CONSTRUÇÃ
 | Carlos Daniel | 42869234 |
 | Guilherme Enzo | 47356481 |
 | Erick jaldin | 47364891 |
-
-## Entrega 1 — Modelo Conceitual (DER)
-
-**Organização analisada:** Catel HLM
-**Unidade:** R. Itinguçu, 2190 - Vila Ré, São Paulo - SP, 03658-001
-**Segmento:** Comércio varejista de materiais de construção — hidráulica, louças, metais, acabamentos, materiais básicos, portas e janelas, peixes, azulejos, pias e gabinetes, com venda em loja física, WhatsApp e canais de venda online
 
 > Este README apresenta o levantamento de requisitos, processos de negação, registros, dicionário de dados, modelo conceitual, DER e justificativas técnicas do projeto.
 
