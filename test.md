@@ -38,7 +38,7 @@ A Catel HLM (Hidráulica, Louças e Metais) é uma loja de materiais de constru�
 **Catel HLM** (nome fantasia; HLM refere-se a Hidráulica, Louças e Metais), com mais de 40 anos de atuação no mercado, segundo o perfil no AECweb (o CNPJ atual foi aberto em 2004), no comércio varejista de materiais de construção: hidráulica, louças, metais, acabamentos, materiais básicos, portas e janelas, pisos, azulejos, pias e gabinetes, com fabricação própria de calhas e rufos. A venda ocorre em loja física e por canais remotos, como WhatsApp.
 
 - **Razão social:** Catel - Hidráulicos, Louças e Metais Ltda
-- **Nome fantasia:** Catel HLM
+- **Nome:** Catel HLM
 - **Natureza jurídica:** Sociedade Empresária Limitada
 - **CNPJ (matriz):** 06.969.238/0001-06, aberto em 18/08/2004
 - **Filial:** CNPJ 06.969.238/0002-97, Rua São Severo, 800 - Vila Ré, São Paulo - SP (ativa). A unidade analisada neste trabalho é a matriz.
