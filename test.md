@@ -145,7 +145,7 @@ flowchart TD
 | O sistema deve permitir consultar a quantidade disponível de cada produto. | ESTOQUE. |
 | O sistema deve registrar a separação e conferência dos produtos antes da entrega. | SEPARACAO_PEDIDO — associado a PEDIDO e FUNCIONARIO. |
 | O sistema deve registrar ocorrências como produto errado, falta de estoque ou problema na entrega. | OCORRENCIA — associada a PEDIDO. |
-| O sistema deve registrar solicitações de troca, devolução ou reembolso. | TROCA_DEVOLUCAO — associado a PEDIDO e PRODUTO. |
+| O sistema deve registrar solicitações de troca, devolução ou reembolso. | TROCA_DEVOLUCAO — associada a ITEM_PEDIDO. |
 | O sistema deve permitir consultar pedidos, pagamentos e status de entrega. | PEDIDO e PAGAMENTO. |
 
 ### 3.2 Requisitos Não Funcionais
@@ -408,7 +408,7 @@ erDiagram
     ESTOQUE {
         int id_estoque PK
         int id_produto FK
-        int quantidade_disponivel
+        decimal quantidade_disponivel
         datetime data_atualizacao
     }
     PEDIDO {
@@ -425,7 +425,7 @@ erDiagram
         int id_item PK
         int id_pedido FK
         int id_produto FK
-        int quantidade
+        decimal         quantidade
         decimal preco_unitario
     }
     PAGAMENTO {
@@ -454,14 +454,15 @@ erDiagram
         datetime data_hora
     }
     TROCA_DEVOLUCAO {
-        int id_troca PK
-        int id_pedido FK
-        int id_produto FK
-        string motivo
-        string condicao_produto
-        string tipo_solicitacao
-        string status_solicitacao
-        datetime data_hora
+       TROCA_DEVOLUCAO {
+    int id_troca PK
+    int id_item FK
+    string motivo
+    string condicao_produto
+    string tipo_solicitacao
+    string status_solicitacao
+    datetime data_hora
+
     }
 ```
 
