@@ -195,7 +195,7 @@ flowchart TD
 | Problemas são resolvidos caso a caso pela equipe. | A entidade OCORRENCIA registra tipo, descrição e solução. |
 | Trocas e devoluções seguem procedimento próprio. | TROCA_DEVOLUCAO é separada de OCORRENCIA, pois trata da pós-venda de um produto já recebido. |
 | LGPD (Lei nº 13.709/2018): dados pessoais só podem ser coletados na medida necessária à finalidade informada. | CPF/CNPJ é opcional; nome, telefone e endereço são obrigatórios apenas em pedidos com entrega; o acesso a CLIENTE e PEDIDO deve ser restrito aos funcionários que precisam desses dados. |
-| Código de Defesa do Consumidor (Lei nº 8.078/1990): em compras feitas fora da loja (WhatsApp e canais remotos) o cliente pode desistir em até 7 dias (art. 49); reclamações por vício de produto têm prazo legal de 30 dias (não duráveis) ou 90 dias (duráveis), conforme o art. 26. | TROCA_DEVOLUCAO registra data_hora, motivo e tipo_solicitacao e se liga ao PEDIDO e ao PRODUTO, o que permite verificar o prazo e distinguir arrependimento de vício. |
+| Código de Defesa do Consumidor (Lei nº 8.078/1990): em compras feitas fora da loja (WhatsApp e canais remotos) o cliente pode desistir em até 7 dias (art. 49); reclamações por vício de produto têm prazo legal de 30 dias (não duráveis) ou 90 dias (duráveis), conforme o art. 26. |A entidade TROCA_DEVOLUCAO se relaciona com ITEM_PEDIDO, permitindo identificar o item adquirido ao qual cada solicitação se refere. Os campos data_hora, motivo e tipo_solicitacao ajudam a registrar a solicitação e a verificar os prazos aplicáveis conforme o tipo de caso. |
 
 ---
 
@@ -238,7 +238,7 @@ Os exemplos de valores citados são fictícios; nenhum dado real de clientes ou 
 |---|---|---|
 | id_estoque | Identificador único do registro de estoque | Obrigatório e único (PK) |
 | id_produto | Produto controlado | Obrigatório e único (FK) |
-| quantidade_disponivel | Quantidade disponível | Obrigatório; maior ou igual a zero |
+    | quantidade_disponivel | Quantidade disponível | Obrigatório; maior ou igual a zero |
 | data_atualizacao | Data e hora da última atualização | Obrigatório |
 
 ### 5.5 PEDIDO
@@ -355,8 +355,7 @@ Convenção: o par (mín,máx) ao lado de cada entidade indica em quantas ocorr�
 | FUNCIONARIO — SEPARACAO_PEDIDO | Um funcionário realiza várias separações. | FUNCIONARIO (0,N) — SEPARACAO_PEDIDO (1,1) |
 | PEDIDO — SEPARACAO_PEDIDO | Um pedido pode ter mais de uma conferência (ex.: após correção). | PEDIDO (0,N) — SEPARACAO_PEDIDO (1,1) |
 | PEDIDO — OCORRENCIA | Um pedido pode ter várias ocorrências. | PEDIDO (0,N) — OCORRENCIA (1,1) |
-| PEDIDO — TROCA_DEVOLUCAO | Um pedido pode originar várias solicitações. | PEDIDO (0,N) — TROCA_DEVOLUCAO (1,1) |
-| PRODUTO — TROCA_DEVOLUCAO | Um produto pode estar em várias solicitações. | PRODUTO (0,N) — TROCA_DEVOLUCAO (1,1) |
+|ITEM_PEDIDO — TROCA_DEVOLUCAO | Um item comprado pode originar nenhuma ou várias solicitações de troca ou devolução. Cada solicitação se refere a um único item |	ITEM_PEDIDO (0,N) — TROCA_DEVOLUCAO (1,1)
 
 ### 6.4 Restrições aplicadas ao modelo
 
