@@ -111,44 +111,6 @@ Os processos foram detalhados com os dados registrados em cada etapa e a tabela 
 | 16 | Contas a pagar | Uma conta por recebimento, com vencimento, valor, situação e pagamento. | CONTA_PAGAR |
 | 17 | Produção própria | Ordem de produção de calhas e rufos, com produto, quantidade, responsável e situação; gera entrada em estoque. | ORDEM_PRODUCAO, MOVIMENTACAO_ESTOQUE |
 
-### Fluxograma do fluxo de venda
-
-```mermaid
-flowchart TD
-    A([Início: cliente solicita produtos]) --> B[Registrar pedido]
-    B --> C{Produto disponível?}
-    C -- Não --> D[Registrar ocorrência e contatar cliente]
-    D --> B
-    C -- Sim --> E[Registrar pagamento]
-    E --> F{Pagamentos aprovados cobrem o total?}
-    F -- Não --> G[Pedido não liberado]
-    F -- Sim --> H[Separar e conferir produtos]
-    H --> I{Conferência correta?}
-    I -- Não --> D
-    I -- Sim --> J[Emitir nota fiscal e baixar estoque]
-    J --> K[Entregar ou liberar retirada]
-    K --> L{Cliente pede troca ou devolução?}
-    L -- Sim --> M[Registrar troca ou devolução]
-    L -- Não --> N([Fim])
-    M --> N
-```
-
-### Fluxograma do abastecimento
-
-```mermaid
-flowchart TD
-    A([Início: estoque abaixo do mínimo]) --> B{Produto é fabricado?}
-    B -- Sim --> C[Abrir ordem de produção]
-    C --> D[Concluir produção]
-    D --> E[Registrar entrada em estoque]
-    B -- Não --> F[Emitir pedido de compra ao fornecedor]
-    F --> G[Receber mercadoria e conferir com o pedido]
-    G --> H[Registrar recebimento e entrada em estoque]
-    H --> I[Gerar conta a pagar]
-    E --> J([Fim])
-    I --> J
-```
-
 ---
 
 ## 4. Requisitos do sistema
