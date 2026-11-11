@@ -6,7 +6,7 @@
 |----|----|----|
 | Benjamim Osmar | 47352663 | https://github.com/benjmianotr-ui |
 | Carlos Daniel | 42869234 |https://github.com/benjmianotr-ui |
-| Guilherme Enzo | 47356481 |
+| Guilherme Enzo | 47356481 |https://github.com/GuilhermeEnzoFerreira |
 | Erick Jaldin | 47364891 |
 
 **Entrega 2 — Modelo lógico, implementação SQL, normalização e proposta de BI/IA**
