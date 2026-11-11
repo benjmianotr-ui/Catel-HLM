@@ -30,7 +30,7 @@
 14. [Uso de IA](#13-uso-de-inteligência-artificial)
 15. [Conclusão e referências](#conclusão)
 
----
+--
 
 ## Introdução
 
@@ -48,7 +48,7 @@ A Catel HLM (Hidráulica, Louças e Metais) é uma loja de materiais de constru�
 
 **Delimitação:** o modelo cobre toda a cadeia da loja: cadastro (clientes, funcionários, fornecedores, produtos), venda (pedido, itens, pagamento, nota fiscal), estoque (saldo e movimentação), separação e conferência, ocorrências, trocas e devoluções, compras e recebimento de fornecedores, contas a pagar e produção própria de calhas e rufos. Não são modelados: folha de pagamento, contabilidade e emissão fiscal eletrônica (a nota fiscal é registrada com os dados da nota emitida pelo sistema fiscal da loja), e o módulo financeiro de contas a receber (as vendas são pagas no ato).
 
----
+--
 
 ## 1. Caracterização da organização
 
@@ -72,7 +72,7 @@ A Catel HLM (Hidráulica, Louças e Metais) é uma loja de materiais de constru�
 
 **Evidências:** endereço da matriz no Google Maps; telefone; perfil de fornecedor no AECweb; dados cadastrais públicos do CNPJ (ver Referências); entrevista com a operação da loja; avaliações de clientes no Google.
 
----
+--
 
 ## 2. Problemas e necessidades
 
@@ -85,7 +85,7 @@ Cada problema recebe um código (P1 a P4) usado nas tabelas de rastreabilidade (
 | P3 | Trocas e devoluções seguem procedimento próprio, sem registro do fundamento (arrependimento ou vício) nem controle do prazo legal do Código de Defesa do Consumidor. | Entrevista e CDC |
 | P4 | Compras de fornecedores, recebimento de mercadoria, contas a pagar, produção própria de calhas e rufos e nota fiscal de venda não estavam representados no modelo da Entrega 1, e a avaliação do professor apontou essa lacuna. | Devolutiva do professor |
 
----
+--
 
 ## 3. Processos de negócio
 
