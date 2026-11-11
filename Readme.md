@@ -94,37 +94,6 @@ A loja foi escolhida por apresentar uma operação comercial real, com múltiplo
 | Tratamento de problemas | Contato com o cliente em caso de produto errado, falta de estoque ou problema na entrega, com substituição, correção do pedido ou nova entrega. |
 | Troca ou devolução | Verificação do motivo e da condição do produto, seguindo o procedimento da empresa. |
 
-### Fluxograma
-
-Fluxo principal (versão em Mermaid; a imagem final do fluxograma deve ser anexada em `/evidencias/fluxograma.png`):
-
-```mermaid
-flowchart TD
-    A([Início: cliente solicita produtos]) --> B[Registrar pedido]
-    B --> C{Produto disponível?}
-    C -- Não --> D[Registrar ocorrência e contatar cliente]
-    D --> B
-    C -- Sim --> E[Registrar pagamento]
-    E --> F{Pagamento aprovado?}
-    F -- Não --> G[Pedido não liberado]
-    F -- Sim --> H[Separar e conferir produtos]
-    H --> I{Conferência correta?}
-    I -- Não --> D
-    I -- Sim --> J[Embalar e entregar / retirar na loja]
-    J --> K{Cliente pede troca ou devolução?}
-    K -- Sim --> L[Registrar troca/devolução]
-    K -- Não --> M([Fim])
-    L --> M
-```
-
-| Elemento | Significado |
-|---|---|
-| Retângulo arredondado | Início / Fim |
-| Retângulo | Processo / Atividade |
-| Losango | Decisão |
-| Setas | Fluxo de execução |
-
----
 
 ## 3. Requisitos do Sistema
 
