@@ -7,7 +7,7 @@
 | Benjamim Osmar | 47352663 | https://github.com/benjmianotr-ui |
 | Carlos Daniel | 42869234 |https://github.com/benjmianotr-ui |
 | Guilherme Enzo | 47356481 |https://github.com/GuilhermeEnzoFerreira |
-| Erick Jaldin | 47364891 |
+| Erick Jaldin | 47364891 | https://github.com/erickjaldin |
 
 **Entrega 2 — Modelo lógico, implementação SQL, normalização e proposta de BI/IA**
 (refaz também a Entrega 1, conforme a devolutiva do professor; ver "Correções da Entrega 1" ao final do desenvolvimento)
