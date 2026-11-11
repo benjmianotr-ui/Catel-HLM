@@ -4,7 +4,7 @@
 
 | Nome | RGM | GitHub |
 |----|----|----|
-| Benjamim Osmar | 47352663 | 
+| Benjamim Osmar | 47352663 | https://github.com/benjmianotr-ui |
 | Carlos Daniel | 42869234 |
 | Guilherme Enzo | 47356481 |
 | Erick Jaldin | 47364891 |
