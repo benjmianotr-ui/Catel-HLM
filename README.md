@@ -751,6 +751,5 @@ Pontos apontados na avaliação do professor (issue #5 do repositório e devolut
 - EMPRESAQUI. *Catel - Hidraulicos, Loucas e Metais Ltda*. Disponível em: https://www.empresaqui.com.br/detalhes-de-empresas/06969238000106-CATEL---HIDRAULICOS-LOUCAS-E-METAIS-LTDA. Acesso em: 27 out. 2026.
 - AECWEB. Guia de fornecedores: Catel Hidráulicos, Louças e Metais. Disponível em: https://www.aecweb.com.br. Acesso em: 27 out. 2026.
 - GOOGLE MAPS. Catel HLM, R. Itinguçu, 2190, São Paulo. Disponível em: https://www.google.com/maps.
-- GUILHERME-DEV-ALT. *BANCO_WECOFFEE*. GitHub. Disponível em: https://github.com/Guilherme-DEV-ALT/BANCO_WECOFFEE. Estrutura do README tomada como referência inicial.
 - ORACLE. *MySQL 8.0 Reference Manual*. Disponível em: https://dev.mysql.com/doc/refman/8.0/en/.
 - ANTHROPIC. Claude. Modelo de linguagem utilizado em 2026.
