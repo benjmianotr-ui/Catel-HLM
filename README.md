@@ -2,9 +2,9 @@
 
 ## Integrantes
 
-| Nome | RGM |
-|----|----|
-| Benjamim Osmar | 47352663 |
+| Nome | RGM | GitHub |
+|----|----|----|
+| Benjamim Osmar | 47352663 | 
 | Carlos Daniel | 42869234 |
 | Guilherme Enzo | 47356481 |
 | Erick Jaldin | 47364891 |
